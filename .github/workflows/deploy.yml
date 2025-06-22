@@ -8,7 +8,6 @@ on:
 
 env:
   YCR_REGISTRY: cr.yandex/${{ secrets.YCR_REGISTRY_ID }}
-  IMAGE_NAME: bottle-code-landing
   YC_VM_ID: ${{ secrets.VM_ID }}
 
 jobs:
@@ -137,11 +136,10 @@ jobs:
       - name: Build and push Docker image
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
-          IMAGE_NAME: bottle-code-landing
         run: |
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
           REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"
-          IMAGE="${IMAGE_NAME}"
+          IMAGE="bottle-code-landing"
           
           echo "Building Docker image: ${REGISTRY}/${IMAGE}:${IMAGE_TAG}"
           

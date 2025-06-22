@@ -175,6 +175,7 @@ jobs:
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
         run: |
+          set -x
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
           REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"
           IMAGE_NAME="bottle-code-landing"

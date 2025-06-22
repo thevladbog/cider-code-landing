@@ -23,17 +23,29 @@ export default function IndexPage() {
       title={t("hero.title")}
     >
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center gap-4 py-16 md:py-20">
+      <section className="flex flex-col items-center justify-center gap-4 py-12 md:py-20 px-4">
         <div className="inline-block max-w-4xl text-center justify-center">
-          <span className={title({ size: "lg" })}>{t("hero.title")}</span>
-          <div className={subtitle({ class: "mt-6 text-lg" })}>
+          <span
+            className={title({
+              size: "lg",
+              class: "text-3xl sm:text-4xl md:text-5xl lg:text-6xl",
+            })}
+          >
+            {t("hero.title")}
+          </span>
+          <div
+            className={subtitle({
+              class: "mt-4 md:mt-6 text-base md:text-lg px-2",
+            })}
+          >
             {t("hero.description")}
           </div>
         </div>
 
-        <div className="flex gap-4 mt-8">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 md:mt-8 w-full sm:w-auto px-4 sm:px-0">
           <Button
             as={Link}
+            className="w-full sm:w-auto min-h-12"
             color="primary"
             href="#demo"
             radius="full"
@@ -44,6 +56,7 @@ export default function IndexPage() {
           </Button>
           <Button
             as={Link}
+            className="w-full sm:w-auto min-h-12"
             href="#contact"
             radius="full"
             size="lg"
@@ -55,42 +68,44 @@ export default function IndexPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-content1" id="features">
+      <section className="py-16 md:py-20 bg-content1" id="features">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <h2 className={title({ size: "md" })}>{t("features.title")}</h2>
             <p className={subtitle({ class: "mt-4" })}>
               {t("features.subtitle")}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
             {/* Web Interface */}
-            <Card className="p-6">
+            <Card className="p-4 md:p-6">
               <CardBody>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
                   {/* Иконка веб-приложения */}
-                  <svg
-                    className="w-6 h-6 text-primary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9-9a9 9 0 00-9 9m9 9v-9a9 9 0 00-9-9"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                    />
-                  </svg>
-                  <Chip color="primary" variant="flat">
-                    Web
-                  </Chip>
-                  <h3 className="text-xl font-semibold">
+                  <div className="flex items-center gap-3">
+                    <svg
+                      className="w-6 h-6 text-primary flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9-9a9 9 0 00-9 9m9 9v-9a9 9 0 00-9-9"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                      />
+                    </svg>
+                    <Chip color="primary" variant="flat">
+                      Web
+                    </Chip>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold">
                     {t("features.webTitle")}
                   </h3>
                 </div>
-                <p className="text-default-600 mb-6">
+                <p className="text-default-600 mb-6 text-sm md:text-base">
                   {t("features.webDescription")}
                 </p>
                 <ul className="space-y-2">
@@ -99,9 +114,14 @@ export default function IndexPage() {
                       returnObjects: true,
                     }) as string[]
                   ).map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <span className="text-primary">✓</span>
-                      {feature}
+                    <li
+                      key={index}
+                      className="flex items-start gap-2 text-sm md:text-base"
+                    >
+                      <span className="text-primary mt-0.5 flex-shrink-0">
+                        ✓
+                      </span>
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -109,34 +129,36 @@ export default function IndexPage() {
             </Card>
 
             {/* Desktop App */}
-            <Card className="p-6">
+            <Card className="p-4 md:p-6">
               <CardBody>
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
                   {/* Иконка desktop приложения */}
-                  <svg
-                    className="w-6 h-6 text-violet-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                    />
-                  </svg>
-                  <Chip
-                    className="bg-violet-100 text-violet-600 dark:bg-violet-900 dark:text-violet-300"
-                    variant="flat"
-                  >
-                    Desktop
-                  </Chip>
-                  <h3 className="text-xl font-semibold">
+                  <div className="flex items-center gap-3">
+                    <svg
+                      className="w-6 h-6 text-violet-600 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                      />
+                    </svg>
+                    <Chip
+                      className="bg-violet-100 text-violet-600 dark:bg-violet-900 dark:text-violet-300"
+                      variant="flat"
+                    >
+                      Desktop
+                    </Chip>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold">
                     {t("features.desktopTitle")}
                   </h3>
                 </div>
-                <p className="text-default-600 mb-6">
+                <p className="text-default-600 mb-6 text-sm md:text-base">
                   {t("features.desktopDescription")}
                 </p>
                 <ul className="space-y-2">
@@ -145,9 +167,14 @@ export default function IndexPage() {
                       returnObjects: true,
                     }) as string[]
                   ).map((feature, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <span className="text-violet-600">✓</span>
-                      {feature}
+                    <li
+                      key={index}
+                      className="flex items-start gap-2 text-sm md:text-base"
+                    >
+                      <span className="text-violet-600 mt-0.5 flex-shrink-0">
+                        ✓
+                      </span>
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -156,14 +183,14 @@ export default function IndexPage() {
           </div>
 
           {/* Key Features */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {/* Интеграция с внешними системами */}
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Card className="p-4 md:p-6 text-center hover:shadow-lg transition-shadow">
               <CardBody>
                 <div className="flex justify-center mb-4">
                   <div className="p-3 bg-primary/10 rounded-full">
                     <svg
-                      className="w-8 h-8 text-primary"
+                      className="w-6 md:w-8 h-6 md:h-8 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -177,22 +204,22 @@ export default function IndexPage() {
                     </svg>
                   </div>
                 </div>
-                <h4 className="font-semibold text-lg mb-2 text-center">
+                <h4 className="font-semibold text-base md:text-lg mb-2 text-center">
                   {t("features.integration")}
                 </h4>
-                <p className="text-sm text-default-600 text-center">
+                <p className="text-xs md:text-sm text-default-600 text-center">
                   {t("features.integrationDesc")}
                 </p>
               </CardBody>
             </Card>
 
             {/* Кроссплатформенность */}
-            <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+            <Card className="p-4 md:p-6 text-center hover:shadow-lg transition-shadow">
               <CardBody>
                 <div className="flex justify-center mb-4">
                   <div className="p-3 bg-primary/10 rounded-full">
                     <svg
-                      className="w-8 h-8 text-primary"
+                      className="w-6 md:w-8 h-6 md:h-8 text-primary"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -277,24 +304,68 @@ export default function IndexPage() {
       </section>
 
       {/* Demo Section */}
-      <section className="py-20" id="demo">
+      <section className="py-16 md:py-20" id="demo">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <h2 className={title({ size: "md" })}>{t("demo.title")}</h2>
             <p className={subtitle({ class: "mt-4" })}>{t("demo.subtitle")}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t("demo.webDemo")}
-              </h3>
+          <div className="grid gap-8 md:gap-12 md:grid-cols-2">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-primary/10 rounded-xl">
+                  <svg
+                    className="w-6 h-6 text-primary"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9-9a9 9 0 00-9 9m9 9v-9a9 9 0 00-9-9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-semibold">
+                    {t("demo.webDemo")}
+                  </h3>
+                  <p className="text-sm text-default-500">
+                    Интерфейс веб-приложения
+                  </p>
+                </div>
+              </div>
               <ScreenshotGallery title={t("demo.webDemo")} type="web" />
             </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {t("demo.desktopDemo")}
-              </h3>
+            <div className="space-y-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-violet-100 dark:bg-violet-900 rounded-xl">
+                  <svg
+                    className="w-6 h-6 text-violet-600 dark:text-violet-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-semibold">
+                    {t("demo.desktopDemo")}
+                  </h3>
+                  <p className="text-sm text-default-500">
+                    Десктопное приложение
+                  </p>
+                </div>
+              </div>
               <ScreenshotGallery title={t("demo.desktopDemo")} type="desktop" />
             </div>
           </div>
@@ -302,9 +373,9 @@ export default function IndexPage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-content1">
+      <section className="py-16 md:py-20 bg-content1">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <h2 className={title({ size: "md" })}>{t("testimonials.title")}</h2>
             <p className={subtitle({ class: "mt-4" })}>
               {t("testimonials.subtitle")}
@@ -321,19 +392,19 @@ export default function IndexPage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 bg-content1" id="pricing">
+      <section className="py-16 md:py-20 bg-content1" id="pricing">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className={title({ size: "md" })}>{t("pricing.title")}</h2>
-          <p className={subtitle({ class: "mt-4 mb-12" })}>
+          <p className={subtitle({ class: "mt-4 mb-8 md:mb-12" })}>
             {t("pricing.subtitle")}
           </p>
 
-          <Card className="p-8">
+          <Card className="p-6 md:p-8">
             <CardBody>
-              <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-4">
                 {/* Иконка ценообразования */}
                 <svg
-                  className="w-8 h-8 text-primary"
+                  className="w-6 md:w-8 h-6 md:h-8 text-primary flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -345,21 +416,23 @@ export default function IndexPage() {
                     strokeWidth={2}
                   />
                 </svg>
-                <h3 className="text-2xl font-bold">{t("pricing.custom")}</h3>
+                <h3 className="text-xl md:text-2xl font-bold">
+                  {t("pricing.custom")}
+                </h3>
               </div>
-              <p className="text-default-600 mb-8">
+              <p className="text-default-600 mb-6 md:mb-8 text-sm md:text-base">
                 {t("pricing.description")}
               </p>
 
-              <div className="mb-8">
-                <h4 className="font-semibold mb-6 text-center">
+              <div className="mb-6 md:mb-8">
+                <h4 className="font-semibold mb-4 md:mb-6 text-center text-base md:text-lg">
                   {t("pricing.includes")}
                 </h4>
                 <div className="relative max-w-4xl mx-auto">
-                  <div className="grid lg:grid-cols-12 gap-8 items-center">
+                  <div className="grid gap-6 md:gap-8 lg:grid-cols-12 items-center">
                     {/* Список преимуществ */}
                     <div className="lg:col-span-8">
-                      <ul className="space-y-4">
+                      <ul className="space-y-3 md:space-y-4 text-left">
                         {(
                           t("pricing.features", {
                             returnObjects: true,
@@ -367,9 +440,9 @@ export default function IndexPage() {
                         ).map((feature, index) => (
                           <li key={index} className="flex items-start gap-3">
                             <div className="flex-shrink-0 mt-0.5">
-                              <div className="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center">
+                              <div className="w-5 md:w-6 h-5 md:h-6 bg-primary/10 rounded-full flex items-center justify-center">
                                 <svg
-                                  className="w-3.5 h-3.5 text-primary"
+                                  className="w-3 md:w-3.5 h-3 md:h-3.5 text-primary"
                                   fill="none"
                                   stroke="currentColor"
                                   viewBox="0 0 24 24"
@@ -383,7 +456,7 @@ export default function IndexPage() {
                                 </svg>
                               </div>
                             </div>
-                            <span className="text-left leading-relaxed">
+                            <span className="text-left leading-relaxed text-sm md:text-base">
                               {feature}
                             </span>
                           </li>
@@ -395,7 +468,7 @@ export default function IndexPage() {
                     <div className="lg:col-span-4 flex justify-center lg:justify-end">
                       <div className="relative">
                         <svg
-                          className="w-32 h-32 text-primary/10"
+                          className="w-24 md:w-32 h-24 md:h-32 text-primary/10"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -404,7 +477,7 @@ export default function IndexPage() {
                         {/* Дополнительная маленькая иконка поверх */}
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                           <svg
-                            className="w-8 h-8 text-primary/30"
+                            className="w-6 md:w-8 h-6 md:h-8 text-primary/30"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -425,6 +498,7 @@ export default function IndexPage() {
 
               <Button
                 as={Link}
+                className="w-full sm:w-auto"
                 color="primary"
                 href="#contact"
                 size="lg"
@@ -438,26 +512,26 @@ export default function IndexPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20" id="contact">
+      <section className="py-16 md:py-20" id="contact">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 md:mb-12">
             <h2 className={title({ size: "md" })}>{t("contact.title")}</h2>
             <p className={subtitle({ class: "mt-4" })}>
               {t("contact.subtitle")}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div>
+          <div className="grid gap-8 md:gap-12 lg:grid-cols-2 items-start">
+            <div className="order-2 lg:order-1">
               <ContactForm />
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 order-1 lg:order-2">
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   {/* Иконка быстрой связи */}
                   <svg
-                    className="w-5 h-5 text-primary"
+                    className="w-5 h-5 text-primary flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -469,7 +543,9 @@ export default function IndexPage() {
                       strokeWidth={2}
                     />
                   </svg>
-                  <h3 className="text-xl font-semibold">Быстрая связь</h3>
+                  <h3 className="text-lg md:text-xl font-semibold">
+                    Быстрая связь
+                  </h3>
                 </div>
                 <div className="space-y-4">
                   <Button
@@ -489,7 +565,7 @@ export default function IndexPage() {
                 <div className="flex items-center gap-2 mb-4">
                   {/* Иконка контактной информации */}
                   <svg
-                    className="w-5 h-5 text-primary"
+                    className="w-5 h-5 text-primary flex-shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -501,25 +577,27 @@ export default function IndexPage() {
                       strokeWidth={2}
                     />
                   </svg>
-                  <h3 className="text-xl font-semibold">
+                  <h3 className="text-lg md:text-xl font-semibold">
                     Контактная информация
                   </h3>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-default-600 flex items-center gap-2">
+                  <p className="text-default-600 flex items-center gap-2 text-sm md:text-base">
                     <svg
-                      className="w-4 h-4"
+                      className="w-4 h-4 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                       <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                     </svg>
-                    <strong>Email:</strong> {siteConfig.links.email}
+                    <span className="break-all">
+                      <strong>Email:</strong> {siteConfig.links.email}
+                    </span>
                   </p>
-                  <p className="text-default-600 flex items-center gap-2">
+                  <p className="text-default-600 flex items-center gap-2 text-sm md:text-base">
                     <svg
-                      className="w-4 h-4"
+                      className="w-4 h-4 flex-shrink-0"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -529,7 +607,9 @@ export default function IndexPage() {
                         fillRule="evenodd"
                       />
                     </svg>
-                    <strong>Сайт:</strong> bottlecode.app
+                    <span>
+                      <strong>Сайт:</strong> bottlecode.app
+                    </span>
                   </p>
                 </div>
               </div>

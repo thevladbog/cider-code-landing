@@ -1,3 +1,100 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Мобильные оптимизации */
+@layer base {
+  /* Улучшенная прокрутка на мобильных устройствах */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Предотвращение масштабирования при фокусе на input */
+  @media screen and (max-width: 768px) {
+    input[type="email"],
+    input[type="text"],
+    textarea {
+      font-size: 16px;
+    }
+  }
+  
+  /* Улучшение читаемости текста на мобильных */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  /* Утилиты для мобильной навигации */
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Оптимизация касаний */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Скрытие элементов только на мобильных */
+  .hidden-mobile {
+    @apply hidden sm:block;
+  }
+  
+  /* Показ элементов только на мобильных */
+  .mobile-only {
+    @apply block sm:hidden;
+  }
+  
+  /* Предотвращение переполнения логотипа */
+  .navbar-brand-mobile {
+    max-width: calc(100vw - 120px);
+    overflow: hidden;
+  }
+  
+  /* Обеспечение корректного размера изображений */
+  .responsive-image {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* Стили для карточек галереи */
+  .gallery-card {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.8);
+  }
+  
+  .dark .gallery-card {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  /* Анимация hover для карточек */
+  .gallery-card-hover {
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .gallery-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  /* Стили для категорий */
+  .category-badge {
+    backdrop-filter: blur(4px);
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+  
+  /* Анимация для миниатюр */
+  .thumbnail-zoom {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .thumbnail-zoom:hover {
+    transform: scale(1.05);
+  }
+}

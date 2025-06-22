@@ -47,15 +47,21 @@ export const Navbar = () => {
       maxWidth="xl"
       position="sticky"
     >
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
-          <NextLink className="flex justify-start items-center gap-3" href="/">
+      <NavbarContent
+        className="basis-1/3 sm:basis-1/5 md:basis-full"
+        justify="start"
+      >
+        <NavbarBrand className="gap-2 md:gap-3 max-w-fit min-w-0 navbar-brand-mobile">
+          <NextLink
+            className="flex justify-start items-center gap-2 md:gap-3"
+            href="/"
+          >
             <CriticalImage
               alt="BOTTLE [CODE]"
-              className="h-8 w-auto"
+              className="h-6 md:h-8 w-auto max-w-none responsive-image"
               fallbackSrc="/favicon.png"
               height={32}
-              sizes="(max-width: 768px) 128px, 128px"
+              sizes="(max-width: 768px) 120px, 128px"
               src="/BOTTLE-CODE-LOGO.png"
               width={128}
             />
@@ -99,8 +105,7 @@ export const Navbar = () => {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <ThemeSwitch />
+      <NavbarContent className="sm:hidden basis-auto pl-2" justify="end">
         <LanguageSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
@@ -109,11 +114,37 @@ export const Navbar = () => {
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navMenuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link color="foreground" href={item.href} size="lg">
+              <Link
+                className="w-full py-2"
+                color="foreground"
+                href={item.href}
+                size="lg"
+              >
                 {t(`nav.${item.label.toLowerCase()}`)}
               </Link>
             </NavbarMenuItem>
           ))}
+
+          {/* Переключатель темы в мобильном меню */}
+          <NavbarMenuItem>
+            <div className="flex items-center gap-2 py-2">
+              <span className="text-sm text-default-600">Тема:</span>
+              <ThemeSwitch />
+            </div>
+          </NavbarMenuItem>
+
+          {/* Добавляем кнопку "Получить расчет" в мобильное меню */}
+          <NavbarMenuItem>
+            <Button
+              as={Link}
+              className="w-full mt-4 bg-primary text-white"
+              href={siteConfig.links.contact}
+              size="lg"
+              variant="flat"
+            >
+              {t("hero.getQuote")}
+            </Button>
+          </NavbarMenuItem>
         </div>
       </NavbarMenu>
     </HeroUINavbar>

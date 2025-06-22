@@ -66,11 +66,12 @@ export const ContactForm = () => {
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-4 md:p-6">
       <CardBody>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <Input
             isRequired
+            className="text-sm md:text-base"
             label={t("contact.email") || "Рабочий Email"}
             type="email"
             value={formData.email}
@@ -78,6 +79,7 @@ export const ContactForm = () => {
           />
 
           <Input
+            className="text-sm md:text-base"
             label={t("contact.company") || "Компания"}
             value={formData.company}
             onValueChange={handleChange("company")}
@@ -85,6 +87,7 @@ export const ContactForm = () => {
 
           <Textarea
             isRequired
+            className="text-sm md:text-base"
             label={t("contact.message") || "Сообщение"}
             minRows={4}
             value={formData.message}
@@ -92,7 +95,7 @@ export const ContactForm = () => {
           />
 
           <Button
-            className="w-full"
+            className="w-full min-h-12"
             color="primary"
             isLoading={isLoading}
             size="lg"

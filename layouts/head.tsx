@@ -50,8 +50,46 @@ export const Head = ({
       />
       <meta content={router.locale || "ru"} name="language" />
       <meta
-        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
         name="viewport"
+      />
+
+      {/* Mobile specific optimizations */}
+      <meta content="telephone=no" name="format-detection" />
+      <meta content="yes" name="mobile-web-app-capable" />
+      <meta content="yes" name="apple-mobile-web-app-capable" />
+      <meta
+        content="black-translucent"
+        name="apple-mobile-web-app-status-bar-style"
+      />
+      <meta content="BOTTLE [CODE]" name="apple-mobile-web-app-title" />
+
+      {/* PWA support */}
+      <link href="/manifest.json" rel="manifest" />
+      <meta content="#8B5CF6" name="theme-color" />
+      <meta content="#FFFFFF" name="background-color" />
+
+      {/* iOS specific */}
+      <meta content="app-id=bottle-code" name="apple-itunes-app" />
+      <link
+        href="/apple-touch-icon.png"
+        rel="apple-touch-icon"
+        sizes="180x180"
+      />
+      <link
+        href="/apple-touch-icon-152x152.png"
+        rel="apple-touch-icon"
+        sizes="152x152"
+      />
+      <link
+        href="/apple-touch-icon-120x120.png"
+        rel="apple-touch-icon"
+        sizes="120x120"
+      />
+      <link
+        href="/apple-touch-icon-76x76.png"
+        rel="apple-touch-icon"
+        sizes="76x76"
       />
 
       {/* Canonical URL */}
@@ -94,17 +132,12 @@ export const Head = ({
       <meta content="@bottlecode" name="twitter:creator" />
 
       {/* Additional SEO */}
-      <meta content="#8B5CF6" name="theme-color" />
       <meta content="#8B5CF6" name="msapplication-TileColor" />
-      <meta content="yes" name="apple-mobile-web-app-capable" />
-      <meta content="default" name="apple-mobile-web-app-status-bar-style" />
-      <meta content={siteConfig.name} name="apple-mobile-web-app-title" />
 
       {/* Favicons */}
       <link href="/favicon.ico" rel="icon" />
       <link href="/favicon.png" rel="icon" sizes="32x32" type="image/png" />
       <link href="/favicon.png" rel="apple-touch-icon" />
-      <link href="/manifest.json" rel="manifest" />
 
       {/* Preconnects for performance */}
       <link href="https://fonts.googleapis.com" rel="preconnect" />

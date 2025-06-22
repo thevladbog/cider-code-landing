@@ -116,8 +116,8 @@ jobs:
       - name: Install Yandex Cloud CLI
         run: |
           curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
-          echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH
-
+          echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH      
+          
       - name: Configure Yandex Cloud CLI
         env:
           YC_OAUTH_TOKEN: ${{ secrets.YC_OAUTH_TOKEN }}
@@ -127,7 +127,8 @@ jobs:
           yc config set token "$YC_OAUTH_TOKEN"
           yc config set cloud-id "$YC_CLOUD_ID"
           yc config set folder-id "$YC_FOLDER_ID"
-          export IAM_TOKEN=`yc iam create-token`          echo "::add-mask::$IAM_TOKEN"
+          export IAM_TOKEN=`yc iam create-token`
+          echo "::add-mask::$IAM_TOKEN"
           echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV
 
       - name: Login to Yandex Container Registry

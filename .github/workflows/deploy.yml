@@ -129,16 +129,19 @@ jobs:
           yc config set folder-id "$YC_FOLDER_ID"
           export IAM_TOKEN=`yc iam create-token`
           echo "::add-mask::$IAM_TOKEN"
-          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV
-
+          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV      
+          
       - name: Login to Yandex Container Registry
         run: echo "${{ secrets.YC_OAUTH_TOKEN }}" | docker login --username oauth --password-stdin cr.yandex
 
       - name: Build and push Docker image
+        env:
+          YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
+          IMAGE_NAME_ENV: ${{ env.IMAGE_NAME }}
         run: |
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
-          REGISTRY="cr.yandex/${{ secrets.YCR_REGISTRY_ID }}"
-          IMAGE="${{ env.IMAGE_NAME }}"
+          REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"
+          IMAGE="${IMAGE_NAME_ENV}"
           
           echo "Building Docker image: ${REGISTRY}/${IMAGE}:${IMAGE_TAG}"
           

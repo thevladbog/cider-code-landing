@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     expose:
       - "3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
     labels:
@@ -23,13 +25,14 @@ services:
       - traefik.http.routers.landing-prod.middlewares=www-redirect
     networks:
       - proxy
-
   bottlecode-landing-staging:
     image: cr.yandex/${YCR_REGISTRY_ID}/bottle-code-landing:staging
     container_name: bottlecode-landing-staging
     restart: unless-stopped
     expose:
       - "3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
     labels:

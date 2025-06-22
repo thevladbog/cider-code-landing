@@ -224,18 +224,32 @@ jobs:
             echo "Tagging and pushing as latest"
             docker tag "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" "${REGISTRY}/${IMAGE_NAME}:latest"
             docker push "${REGISTRY}/${IMAGE_NAME}:latest"
-          fi
-
-
-      - name: Upload docker-compose.yml to server
+          fi      - name: Upload docker-compose.yml to server
         run: |
           export VM_ID="${{ secrets.VM_ID }}"
           cat docker-compose.yml | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/docker-compose.yml > /dev/null"
 
-      - name: Upload YCR_REGISTRY_ID env
+      - name: Upload environment variables to server
         run: |
           export VM_ID="${{ secrets.VM_ID }}"
-          echo "YCR_REGISTRY_ID=${{ secrets.YCR_REGISTRY_ID }}" | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/.env > /dev/null"
+          # Создаём .env файл с runtime переменными
+          cat << EOF | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/.env > /dev/null"
+          YCR_REGISTRY_ID=${{ secrets.YCR_REGISTRY_ID }}
+          NODE_ENV=production
+          CONTACT_EMAIL_TO=${{ secrets.CONTACT_EMAIL_TO }}
+          CONTACT_EMAIL_FROM=${{ secrets.CONTACT_EMAIL_FROM }}
+          SMTP_HOST=${{ secrets.SMTP_HOST }}
+          SMTP_PORT=${{ secrets.SMTP_PORT }}
+          SMTP_SECURE=${{ secrets.SMTP_SECURE }}
+          SMTP_USER=${{ secrets.SMTP_USER }}
+          SMTP_PASS=${{ secrets.SMTP_PASS }}
+          TRACKER_PRIVATE_KEY=${{ secrets.TRACKER_PRIVATE_KEY }}
+          TRACKER_PRIVATE_KEY_B64=${{ secrets.TRACKER_PRIVATE_KEY_B64 }}
+          TRACKER_KEY_ID=${{ secrets.TRACKER_KEY_ID }}
+          TRACKER_SERVICE_ACCOUNT_ID=${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}
+          TRACKER_ORG_ID=${{ secrets.TRACKER_ORG_ID }}
+          TRACKER_QUEUE_KEY=${{ secrets.TRACKER_QUEUE_KEY }}
+          EOF
 
       - name: Deploy to server
         run: |

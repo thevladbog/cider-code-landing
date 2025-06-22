@@ -1,7 +1,7 @@
 import { Link } from "@heroui/link";
 import { useTranslation } from "next-i18next";
 
-import { OptimizedImage } from "@/components/optimized-image";
+import { CriticalImage } from "@/components/critical-image";
 import { siteConfig } from "@/config/site";
 
 export const Footer = () => {
@@ -14,7 +14,7 @@ export const Footer = () => {
           {/* Logo and Description */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <OptimizedImage
+              <CriticalImage
                 alt="BOTTLE [CODE]"
                 className="h-8 w-auto"
                 height={32}

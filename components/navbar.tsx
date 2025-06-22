@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { LanguageSwitch } from "@/components/language-switch";
-import { OptimizedImage } from "@/components/optimized-image";
+import { CriticalImage } from "@/components/critical-image";
 
 export const Navbar = () => {
   const { t } = useTranslation("common");
@@ -50,10 +50,12 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-3" href="/">
-            <OptimizedImage
+            <CriticalImage
               alt="BOTTLE [CODE]"
               className="h-8 w-auto"
+              fallbackSrc="/favicon.png"
               height={32}
+              sizes="(max-width: 768px) 128px, 128px"
               src="/BOTTLE-CODE-LOGO.png"
               width={128}
             />

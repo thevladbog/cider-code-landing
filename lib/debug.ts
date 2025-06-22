@@ -1,93 +1,46 @@
 /**
  * Debug utilities for BOTTLE [CODE] Contact Form
- * Provides safe logging that works in production
+ * Console outputs disabled for production
  */
 
 export const debugLog = {
-  group: (label: string) => {
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.group(label);
-    }
+  group: () => {
+    // Console outputs disabled
   },
 
   groupEnd: () => {
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.groupEnd();
-    }
+    // Console outputs disabled
   },
 
-  log: (...args: any[]) => {
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.log(...args);
-    }
+  log: () => {
+    // Console outputs disabled
   },
 
-  error: (...args: any[]) => {
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.error(...args);
-    }
+  error: () => {
+    // Console outputs disabled
   },
 
-  warn: (...args: any[]) => {
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      // eslint-disable-next-line no-console
-      console.warn(...args);
-    }
-  },
-};
-
-export const serverDebugLog = {
-  group: (label: string) => {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.group(label);
-    }
+  warn: () => {
+    // Console outputs disabled
   },
 
-  groupEnd: () => {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.groupEnd();
-    }
+  time: () => {
+    // Console outputs disabled
   },
 
-  log: (...args: any[]) => {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.log(...args);
-    }
+  timeEnd: () => {
+    // Console outputs disabled
   },
 
-  error: (...args: any[]) => {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.error(...args);
-    }
+  performance: () => {
+    // Console outputs disabled
   },
 
-  warn: (...args: any[]) => {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn(...args);
-    }
+  network: () => {
+    // Console outputs disabled
+  },
+
+  response: () => {
+    // Console outputs disabled
   },
 };

@@ -26,6 +26,14 @@ export default function Document(props: DocumentProps) {
           rel="preconnect"
         />
 
+        {/* Critical image preloads */}
+        <link
+          as="image"
+          href="/BOTTLE-CODE-LOGO.png"
+          rel="preload"
+          type="image/png"
+        />
+
         {/* Global structured data */}
         <script
           dangerouslySetInnerHTML={{

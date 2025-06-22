@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface OptimizedImageProps {
   src: string;
@@ -28,6 +28,27 @@ export const OptimizedImage = ({
 }: OptimizedImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+  const [imageSrc, setImageSrc] = useState(src);
+
+  const maxRetries = 3;
+
+  useEffect(() => {
+    if (hasError && retryCount < maxRetries) {
+      const timer = setTimeout(
+        () => {
+          setHasError(false);
+          setIsLoading(true);
+          setRetryCount((prev) => prev + 1);
+          // Force re-render by adding timestamp to src
+          setImageSrc(`${src}?retry=${retryCount + 1}`);
+        },
+        1000 * Math.pow(2, retryCount),
+      ); // Exponential backoff
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasError, retryCount, src]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -63,7 +84,7 @@ export const OptimizedImage = ({
           priority={priority}
           quality={quality}
           sizes={sizes}
-          src={src}
+          src={imageSrc}
           width={width}
           onError={() => {
             setHasError(true);

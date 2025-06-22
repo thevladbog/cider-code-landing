@@ -27,17 +27,12 @@ export default function ContactDebugPage() {
   const testContactForm = async () => {
     setIsLoading(true);
 
-    console.group("🧪 Manual Contact Form Test");
-    console.log("Testing contact form with dummy data...");
-
     try {
       const testData = {
         email: "test@example.com",
         company: "Test Company",
         message: "This is a test message from debug page",
       };
-
-      console.log("Test data:", testData);
 
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -49,9 +44,6 @@ export default function ContactDebugPage() {
 
       const result = await response.json();
 
-      console.log("Response status:", response.status);
-      console.log("Response data:", result);
-
       setDebugInfo({
         testType: "Contact Form Test",
         status: response.status,
@@ -60,7 +52,6 @@ export default function ContactDebugPage() {
         timestamp: new Date().toISOString(),
       });
     } catch (error) {
-      console.error("Test error:", error);
       setDebugInfo({
         testType: "Contact Form Test",
         error: "Test failed",
@@ -68,7 +59,6 @@ export default function ContactDebugPage() {
         timestamp: new Date().toISOString(),
       });
     } finally {
-      console.groupEnd();
       setIsLoading(false);
     }
   };

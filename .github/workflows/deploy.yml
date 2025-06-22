@@ -136,11 +136,10 @@ jobs:
       - name: Build and push Docker image
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
-        working-directory: ${{ github.workspace }}/bottle-code-landing
         run: |
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
           REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"
-          IMAGE="bottle-code-landing"
+          IMAGE_NAME="bottle-code-landing"
           
           echo "Building Docker image: ${REGISTRY}/${IMAGE}:${IMAGE_TAG}"
           
@@ -159,7 +158,7 @@ jobs:
             --build-arg TRACKER_SERVICE_ACCOUNT_ID="${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}" \
             --build-arg TRACKER_ORG_ID="${{ secrets.TRACKER_ORG_ID }}" \
             --build-arg TRACKER_QUEUE_KEY="${{ secrets.TRACKER_QUEUE_KEY }}" \
-            -t "${REGISTRY}/${IMAGE}:${IMAGE_TAG}" .
+            -t $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} .
           
           echo "Pushing Docker image: ${REGISTRY}/${IMAGE}:${IMAGE_TAG}"
           docker push "${REGISTRY}/${IMAGE}:${IMAGE_TAG}"

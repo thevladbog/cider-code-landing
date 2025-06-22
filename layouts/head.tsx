@@ -114,14 +114,6 @@ export const Head = ({
         rel="preconnect"
       />
 
-      {/* Preload critical images */}
-      <link
-        as="image"
-        href="/BOTTLE-CODE-LOGO.png"
-        rel="preload"
-        type="image/png"
-      />
-
       {/* Structured Data */}
       <script
         dangerouslySetInnerHTML={{

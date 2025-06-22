@@ -133,6 +133,44 @@ jobs:
       - name: Login to Yandex Container Registry
         run: echo "${{ secrets.YC_OAUTH_TOKEN }}" | docker login --username oauth --password-stdin cr.yandex
 
+      - name: Debug secrets and build context
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          CONTACT_EMAIL_TO: ${{ secrets.CONTACT_EMAIL_TO }}
+          CONTACT_EMAIL_FROM: ${{ secrets.CONTACT_EMAIL_FROM }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TRACKER_PRIVATE_KEY: ${{ secrets.TRACKER_PRIVATE_KEY }}
+          TRACKER_KEY_ID: ${{ secrets.TRACKER_KEY_ID }}
+          TRACKER_SERVICE_ACCOUNT_ID: ${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}
+          TRACKER_ORG_ID: ${{ secrets.TRACKER_ORG_ID }}
+          TRACKER_QUEUE_KEY: ${{ secrets.TRACKER_QUEUE_KEY }}
+        run: |
+          echo "Checking secrets (length only, not values):"
+          echo "NEXT_PUBLIC_SITE_URL length: ${#NEXT_PUBLIC_SITE_URL}"
+          echo "NEXT_PUBLIC_APP_URL length: ${#NEXT_PUBLIC_APP_URL}"
+          echo "CONTACT_EMAIL_TO length: ${#CONTACT_EMAIL_TO}"
+          echo "CONTACT_EMAIL_FROM length: ${#CONTACT_EMAIL_FROM}"
+          echo "SMTP_HOST length: ${#SMTP_HOST}"
+          echo "SMTP_PORT length: ${#SMTP_PORT}"
+          echo "SMTP_SECURE length: ${#SMTP_SECURE}"
+          echo "SMTP_USER length: ${#SMTP_USER}"
+          echo "SMTP_PASS length: ${#SMTP_PASS}"
+          echo "TRACKER_PRIVATE_KEY length: ${#TRACKER_PRIVATE_KEY}"
+          echo "TRACKER_KEY_ID length: ${#TRACKER_KEY_ID}"
+          echo "TRACKER_SERVICE_ACCOUNT_ID length: ${#TRACKER_SERVICE_ACCOUNT_ID}"
+          echo "TRACKER_ORG_ID length: ${#TRACKER_ORG_ID}"
+          echo "TRACKER_QUEUE_KEY length: ${#TRACKER_QUEUE_KEY}"
+          echo "\nListing files in build context:"
+          ls -la
+          echo "\nChecking for Dockerfile:"
+          if [ -f Dockerfile ]; then echo "Dockerfile found"; else echo "Dockerfile NOT found"; fi
+
+
       - name: Build and push Docker image
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
@@ -170,9 +208,10 @@ jobs:
             docker push "${REGISTRY}/${IMAGE_NAME}:latest"
           fi
 
+
       - name: Deploy to server
         run: |
-          export VM_ID=${{ secrets.VM_ID }}
+          export VM_ID="${{ secrets.VM_ID }}"
           yc compute ssh --id "$VM_ID" -- "
             cd /opt/bottle-code-landing &&
             sudo docker login --username iam --password '$IAM_TOKEN' cr.yandex &&
@@ -196,7 +235,7 @@ jobs:
 
       - name: Cleanup old Docker images
         run: |
-          export VM_ID=${{ secrets.VM_ID }}
+          export VM_ID="${{ secrets.VM_ID }}"
           yc compute ssh --id "$VM_ID" -- "
             sudo docker image prune -f &&
             sudo docker system prune -f

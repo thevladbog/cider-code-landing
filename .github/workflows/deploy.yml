@@ -140,9 +140,9 @@ jobs:
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
           REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"
           IMAGE_NAME="bottle-code-landing"
-          
+
           echo "Building Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-          
+
           docker build \
             --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
             --build-arg NEXT_PUBLIC_APP_URL="${{ secrets.NEXT_PUBLIC_APP_URL }}" \
@@ -158,11 +158,11 @@ jobs:
             --build-arg TRACKER_SERVICE_ACCOUNT_ID="${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}" \
             --build-arg TRACKER_ORG_ID="${{ secrets.TRACKER_ORG_ID }}" \
             --build-arg TRACKER_QUEUE_KEY="${{ secrets.TRACKER_QUEUE_KEY }}" \
-            -t $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} .
-          
+            -t "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" .
+
           echo "Pushing Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
           docker push "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-          
+
           # Tag and push as latest for production
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "Tagging and pushing as latest"

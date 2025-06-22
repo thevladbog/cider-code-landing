@@ -1,12 +1,12 @@
 # Multi-stage build for Next.js application
-FROM node:22-alpine AS dependencies
+FROM node:22.14.0-alpine3.21 AS dependencies
 
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Build stage
-FROM node:22-alpine AS builder
+FROM node:22.14.0-alpine3.21 AS builder
 
 WORKDIR /app
 COPY package*.json ./
@@ -49,7 +49,7 @@ ENV NODE_ENV=production
 RUN npm run build
 
 # Production stage
-FROM node:22-alpine AS runner
+FROM node:22.14.0-alpine3.21 AS runner
 
 WORKDIR /app
 

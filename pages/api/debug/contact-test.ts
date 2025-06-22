@@ -23,6 +23,19 @@ export default async function handler(
     YANDEX_TRACKER_ORG_ID: process.env.YANDEX_TRACKER_ORG_ID
       ? "✓ set"
       : "✗ missing",
+    // Новые переменные для Яндекс.Трекера
+    TRACKER_PRIVATE_KEY: process.env.TRACKER_PRIVATE_KEY
+      ? "✓ set"
+      : "✗ missing",
+    TRACKER_PRIVATE_KEY_B64: process.env.TRACKER_PRIVATE_KEY_B64
+      ? "✓ set"
+      : "✗ missing",
+    TRACKER_KEY_ID: process.env.TRACKER_KEY_ID ? "✓ set" : "✗ missing",
+    TRACKER_SERVICE_ACCOUNT_ID: process.env.TRACKER_SERVICE_ACCOUNT_ID
+      ? "✓ set"
+      : "✗ missing",
+    TRACKER_ORG_ID: process.env.TRACKER_ORG_ID ? "✓ set" : "✗ missing",
+    TRACKER_QUEUE_KEY: process.env.TRACKER_QUEUE_KEY ? "✓ set" : "✗ missing",
   };
 
   // Проверяем доступность модулей

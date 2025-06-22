@@ -54,7 +54,13 @@ export class YandexTrackerService {
       return this.cachedToken;
     }
 
-    const privateKey = process.env.TRACKER_PRIVATE_KEY;
+    const privateKey =
+      process.env.TRACKER_PRIVATE_KEY ||
+      (process.env.TRACKER_PRIVATE_KEY_B64
+        ? Buffer.from(process.env.TRACKER_PRIVATE_KEY_B64, "base64").toString(
+            "utf-8",
+          )
+        : null);
     const keyId = process.env.TRACKER_KEY_ID;
     const serviceAccountId = process.env.TRACKER_SERVICE_ACCOUNT_ID;
 

@@ -60,8 +60,20 @@ export default async function handler(
     nodeEnv: process.env.NODE_ENV,
     smtpUser: process.env.SMTP_USER ? "✓ set" : "✗ missing",
     smtpPass: process.env.SMTP_PASS ? "✓ set" : "✗ missing",
+    // Legacy Yandex Tracker vars (старые)
     yandexToken: process.env.YANDEX_TRACKER_TOKEN ? "✓ set" : "✗ missing",
     yandexOrgId: process.env.YANDEX_TRACKER_ORG_ID ? "✓ set" : "✗ missing",
+    // New Tracker vars (новые)
+    trackerPrivateKey: process.env.TRACKER_PRIVATE_KEY ? "✓ set" : "✗ missing",
+    trackerPrivateKeyB64: process.env.TRACKER_PRIVATE_KEY_B64
+      ? "✓ set"
+      : "✗ missing",
+    trackerKeyId: process.env.TRACKER_KEY_ID ? "✓ set" : "✗ missing",
+    trackerServiceAccount: process.env.TRACKER_SERVICE_ACCOUNT_ID
+      ? "✓ set"
+      : "✗ missing",
+    trackerOrgId: process.env.TRACKER_ORG_ID ? "✓ set" : "✗ missing",
+    trackerQueue: process.env.TRACKER_QUEUE_KEY ? "✓ set" : "✗ missing",
   });
 
   try {

@@ -183,6 +183,7 @@ jobs:
           SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TRACKER_PRIVATE_KEY: ${{ secrets.TRACKER_PRIVATE_KEY }}
           TRACKER_PRIVATE_KEY_B64: ${{ secrets.TRACKER_PRIVATE_KEY_B64 }}
           TRACKER_KEY_ID: ${{ secrets.TRACKER_KEY_ID }}
           TRACKER_SERVICE_ACCOUNT_ID: ${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}
@@ -204,8 +205,8 @@ jobs:
             --build-arg SMTP_HOST="$SMTP_HOST" \
             --build-arg SMTP_PORT="$SMTP_PORT" \
             --build-arg SMTP_SECURE="$SMTP_SECURE" \
-            --build-arg SMTP_USER="$SMTP_USER" \
-            --build-arg SMTP_PASS="$SMTP_PASS" \
+            --build-arg SMTP_USER="$SMTP_USER" \            --build-arg SMTP_PASS="$SMTP_PASS" \
+            --build-arg TRACKER_PRIVATE_KEY="$TRACKER_PRIVATE_KEY" \
             --build-arg TRACKER_PRIVATE_KEY_B64="$TRACKER_PRIVATE_KEY_B64" \
             --build-arg TRACKER_KEY_ID="$TRACKER_KEY_ID" \
             --build-arg TRACKER_SERVICE_ACCOUNT_ID="$TRACKER_SERVICE_ACCOUNT_ID" \

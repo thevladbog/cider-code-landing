@@ -221,10 +221,11 @@ jobs:
 
           # Tag and push as latest for production
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "Tagging and pushing as latest"
-            docker tag "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" "${REGISTRY}/${IMAGE_NAME}:latest"
+            echo "Tagging and pushing as latest"            docker tag "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" "${REGISTRY}/${IMAGE_NAME}:latest"
             docker push "${REGISTRY}/${IMAGE_NAME}:latest"
-          fi      - name: Upload docker-compose.yml to server
+          fi
+
+      - name: Upload docker-compose.yml to server
         run: |
           export VM_ID="${{ secrets.VM_ID }}"
           cat docker-compose.yml | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/docker-compose.yml > /dev/null"

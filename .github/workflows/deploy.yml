@@ -174,6 +174,20 @@ jobs:
       - name: Build and push Docker image
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          CONTACT_EMAIL_TO: ${{ secrets.CONTACT_EMAIL_TO }}
+          CONTACT_EMAIL_FROM: ${{ secrets.CONTACT_EMAIL_FROM }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TRACKER_PRIVATE_KEY_B64: ${{ secrets.TRACKER_PRIVATE_KEY_B64 }}
+          TRACKER_KEY_ID: ${{ secrets.TRACKER_KEY_ID }}
+          TRACKER_SERVICE_ACCOUNT_ID: ${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}
+          TRACKER_ORG_ID: ${{ secrets.TRACKER_ORG_ID }}
+          TRACKER_QUEUE_KEY: ${{ secrets.TRACKER_QUEUE_KEY }}
         run: |
           set -x
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
@@ -183,20 +197,20 @@ jobs:
           echo "Building Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
           docker build \
-            --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
-            --build-arg NEXT_PUBLIC_APP_URL="${{ secrets.NEXT_PUBLIC_APP_URL }}" \
-            --build-arg CONTACT_EMAIL_TO="${{ secrets.CONTACT_EMAIL_TO }}" \
-            --build-arg CONTACT_EMAIL_FROM="${{ secrets.CONTACT_EMAIL_FROM }}" \
-            --build-arg SMTP_HOST="${{ secrets.SMTP_HOST }}" \
-            --build-arg SMTP_PORT="${{ secrets.SMTP_PORT }}" \
-            --build-arg SMTP_SECURE="${{ secrets.SMTP_SECURE }}" \
-            --build-arg SMTP_USER="${{ secrets.SMTP_USER }}" \
-            --build-arg SMTP_PASS="${{ secrets.SMTP_PASS }}" \
-            --build-arg TRACKER_PRIVATE_KEY="${{ secrets.TRACKER_PRIVATE_KEY }}" \
-            --build-arg TRACKER_KEY_ID="${{ secrets.TRACKER_KEY_ID }}" \
-            --build-arg TRACKER_SERVICE_ACCOUNT_ID="${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}" \
-            --build-arg TRACKER_ORG_ID="${{ secrets.TRACKER_ORG_ID }}" \
-            --build-arg TRACKER_QUEUE_KEY="${{ secrets.TRACKER_QUEUE_KEY }}" \
+            --build-arg NEXT_PUBLIC_SITE_URL="$NEXT_PUBLIC_SITE_URL" \
+            --build-arg NEXT_PUBLIC_APP_URL="$NEXT_PUBLIC_APP_URL" \
+            --build-arg CONTACT_EMAIL_TO="$CONTACT_EMAIL_TO" \
+            --build-arg CONTACT_EMAIL_FROM="$CONTACT_EMAIL_FROM" \
+            --build-arg SMTP_HOST="$SMTP_HOST" \
+            --build-arg SMTP_PORT="$SMTP_PORT" \
+            --build-arg SMTP_SECURE="$SMTP_SECURE" \
+            --build-arg SMTP_USER="$SMTP_USER" \
+            --build-arg SMTP_PASS="$SMTP_PASS" \
+            --build-arg TRACKER_PRIVATE_KEY_B64="$TRACKER_PRIVATE_KEY_B64" \
+            --build-arg TRACKER_KEY_ID="$TRACKER_KEY_ID" \
+            --build-arg TRACKER_SERVICE_ACCOUNT_ID="$TRACKER_SERVICE_ACCOUNT_ID" \
+            --build-arg TRACKER_ORG_ID="$TRACKER_ORG_ID" \
+            --build-arg TRACKER_QUEUE_KEY="$TRACKER_QUEUE_KEY" \
             -t "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" .
 
           echo "Pushing Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"

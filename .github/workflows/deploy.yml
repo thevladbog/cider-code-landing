@@ -229,6 +229,11 @@ jobs:
           export VM_ID="${{ secrets.VM_ID }}"
           cat docker-compose.yml | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/docker-compose.yml > /dev/null"
 
+      - name: Upload YCR_REGISTRY_ID env
+        run: |
+          export VM_ID="${{ secrets.VM_ID }}"
+          echo "YCR_REGISTRY_ID=${{ secrets.YCR_REGISTRY_ID }}" | yc compute ssh --id "$VM_ID" -- "sudo tee /opt/bottle-code-landing/.env > /dev/null"
+
       - name: Deploy to server
         run: |
           export VM_ID="${{ secrets.VM_ID }}"

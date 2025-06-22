@@ -100,12 +100,12 @@ jobs:
             else
               echo "image_tag=latest" >> $GITHUB_OUTPUT
             fi
-            echo "service_name=bottle-code-landing" >> $GITHUB_OUTPUT
+            echo "service_name=bottlecode-landing" >> $GITHUB_OUTPUT
             echo "host_domain=${{ secrets.PROD_DOMAIN }}" >> $GITHUB_OUTPUT
           else
             echo "env_name=staging" >> $GITHUB_OUTPUT
             echo "image_tag=staging" >> $GITHUB_OUTPUT
-            echo "service_name=bottle-code-landing" >> $GITHUB_OUTPUT
+            echo "service_name=bottlecode-landing" >> $GITHUB_OUTPUT
             echo "host_domain=${{ secrets.STAGING_DOMAIN }}" >> $GITHUB_OUTPUT
           fi
 
@@ -235,8 +235,8 @@ jobs:
           yc compute ssh --id "$VM_ID" -- "
             cd /opt/bottle-code-landing &&
             sudo docker login --username iam --password '$IAM_TOKEN' cr.yandex &&
-            sudo docker compose pull ${{ steps.env.outputs.service_name }} &&
-            sudo docker compose up -d ${{ steps.env.outputs.service_name }}
+            sudo docker compose pull bottlecode-landing &&
+            sudo docker compose up -d bottlecode-landing
           "
 
       - name: Health check

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  landing-production:
+  bottlecode-landing:
     image: cr.yandex/${YCR_REGISTRY_ID}/bottle-code-landing:latest
-    container_name: bottle-code-landing-prod
+    container_name: bottlecode-landing-prod
     restart: unless-stopped
     expose:
       - "3000"
@@ -24,9 +24,9 @@ services:
     networks:
       - proxy
 
-  landing-staging:
+  bottlecode-landing-staging:
     image: cr.yandex/${YCR_REGISTRY_ID}/bottle-code-landing:staging
-    container_name: bottle-code-landing-staging
+    container_name: bottlecode-landing-staging
     restart: unless-stopped
     expose:
       - "3000"

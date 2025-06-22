@@ -136,6 +136,7 @@ jobs:
       - name: Build and push Docker image
         env:
           YCR_REGISTRY_ID: ${{ secrets.YCR_REGISTRY_ID }}
+        working-directory: ${{ github.workspace }}/bottle-code-landing
         run: |
           IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
           REGISTRY="cr.yandex/${YCR_REGISTRY_ID}"

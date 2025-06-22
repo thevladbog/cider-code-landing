@@ -129,13 +129,17 @@ jobs:
           yc config set folder-id "$YC_FOLDER_ID"
           export IAM_TOKEN=`yc iam create-token`
           echo "::add-mask::$IAM_TOKEN"
-          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV
-
+          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV      
       - name: Login to Yandex Container Registry
         run: echo "${{ secrets.YC_OAUTH_TOKEN }}" | docker login --username oauth --password-stdin cr.yandex
 
       - name: Build and push Docker image
         run: |
+          IMAGE_TAG="${{ steps.env.outputs.image_tag }}"
+          REGISTRY="${YCR_REGISTRY}"
+          
+          echo "Building Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+          
           docker build \
             --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
             --build-arg NEXT_PUBLIC_APP_URL="${{ secrets.NEXT_PUBLIC_APP_URL }}" \
@@ -151,14 +155,16 @@ jobs:
             --build-arg TRACKER_SERVICE_ACCOUNT_ID="${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}" \
             --build-arg TRACKER_ORG_ID="${{ secrets.TRACKER_ORG_ID }}" \
             --build-arg TRACKER_QUEUE_KEY="${{ secrets.TRACKER_QUEUE_KEY }}" \
-            -t $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} .
+            -t "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" .
           
-          docker push $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }}
+          echo "Pushing Docker image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+          docker push "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
           
-          # Также тегируем как latest для production
+          # Tag and push as latest for production
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            docker tag $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} $YCR_REGISTRY/$IMAGE_NAME:latest
-            docker push $YCR_REGISTRY/$IMAGE_NAME:latest
+            echo "Tagging and pushing as latest"
+            docker tag "${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}" "${REGISTRY}/${IMAGE_NAME}:latest"
+            docker push "${REGISTRY}/${IMAGE_NAME}:latest"
           fi
 
       - name: Deploy to server

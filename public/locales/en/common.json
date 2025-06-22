@@ -1,0 +1,109 @@
+{
+  "title": "BOTTLE [CODE]",
+  "description": "Solution for serialization and aggregation of Fair Sign system codes in the production of beer, cider and other products",
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "demo": "Demo",
+    "pricing": "Pricing",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Marking Automation for Beverage Production",
+    "subtitle": "Modern solution for serialization and aggregation of Fair Sign codes",
+    "description": "BOTTLE [CODE] is a comprehensive solution for automating marking processes at beer, cider and other beverage production facilities. Integration with external systems, cross-platform compatibility and affordable pricing.",
+    "tryWeb": "Try Web Version",
+    "downloadApp": "Download App",
+    "getQuote": "Get Quote"
+  },
+  "features": {
+    "title": "Solution Features",
+    "subtitle": "Complete set of tools for working with marking",
+    "webTitle": "Web Interface",
+    "webDescription": "Administrative panel for managing products, shifts and users",
+    "webFeatures": [
+      "Product registry management",
+      "Creating production shifts",
+      "Downloading processed codes",
+      "User management",
+      "Role-based access control"
+    ],
+    "desktopTitle": "Desktop Application",
+    "desktopDescription": "Application for working directly on the production line",
+    "desktopFeatures": [
+      "Barcode authorization",
+      "Scanner and printer connection",
+      "Shift and parameter setup",
+      "Marking code serialization",
+      "Automatic SSCC generation"
+    ],
+    "integration": "External system integration",
+    "integrationDesc": "Easy connection to ERP, MES and other enterprise systems",
+    "crossPlatform": "Cross-platform compatibility",
+    "crossPlatformDesc": "Works on Windows, Linux and in web browsers",
+    "modernDesign": "Modern design",
+    "modernDesignDesc": "Intuitive interface with responsive layout",
+    "customization": "Customization capabilities",
+    "customizationDesc": "Flexible configuration for specific business processes"
+  },
+  "demo": {
+    "title": "Solution Demo",
+    "subtitle": "See how BOTTLE [CODE] works",
+    "webDemo": "Web Interface",
+    "desktopDemo": "Desktop Application"
+  },
+  "pricing": {
+    "title": "Solution Pricing",
+    "subtitle": "Flexible pricing for your needs",
+    "custom": "Custom Quote",
+    "description": "Solution cost is calculated individually depending on production volumes and integration requirements",
+    "includes": "Includes:",
+    "features": [
+      "Usage license",
+      "Custom deployment",
+      "Integration setup",
+      "Technical support",
+      "Staff training"
+    ],
+    "getQuote": "Get Quote"
+  },
+  "testimonials": {
+    "title": "Client Reviews",
+    "subtitle": "What our partners say about us",
+    "client": "Rebel Apple Cider Production Plant",
+    "text": "BOTTLE [CODE] has significantly simplified the marking process at our production facility. Intuitive interface, reliable operation and excellent technical support. We recommend it!",
+    "name": "Technical Director",
+    "company": "Rebel Apple"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Ready to implement the solution? Contact us for consultation",
+    "email": "Work Email",
+    "company": "Company",
+    "message": "Message",
+    "send": "Send",
+    "sent": "Message sent! Check your email for confirmation.",
+    "getDemo": "Get Demo"
+  },
+  "footer": {
+    "description": "Modern solution for beverage production marking automation",
+    "rights": "All rights reserved",
+    "year": "2025",
+    "contact": "Contact Us",
+    "solutions": "Solutions",
+    "webInterface": "Web Interface",
+    "desktopApp": "Desktop Application"
+  },
+  "common": {
+    "learnMore": "Learn More",
+    "getStarted": "Get Started",
+    "download": "Download",
+    "comingSoon": "Coming Soon"
+  },
+  "blog": "Blog",
+  "blogDescription": "Articles, case studies and news about marking and production automation",
+  "blogComingSoon": "Interesting articles about marking, production automation and Fair Sign system implementation will appear here soon.",
+  "docs": "Documentation",
+  "docsDescription": "Complete guide to using BOTTLE [CODE]",
+  "docsComingSoon": "Detailed documentation is being prepared for publication. Installation, configuration and usage guides will be available here."
+}

@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  landing-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+        - NEXT_PUBLIC_APP_URL=https://app.bottlecode.app
+        - CONTACT_EMAIL_TO=contact@bottlecode.app
+        - CONTACT_EMAIL_FROM=noreply@bottlecode.app
+        - SMTP_HOST=smtp.yandex.ru
+        - SMTP_PORT=465
+        - SMTP_SECURE=true
+        - SMTP_USER=noreply@bottlecode.app
+        - SMTP_PASS=your_app_password_here
+        - TRACKER_PRIVATE_KEY=your_private_key_here
+        - TRACKER_KEY_ID=your_key_id_here
+        - TRACKER_SERVICE_ACCOUNT_ID=your_service_account_id_here
+        - TRACKER_ORG_ID=your_organization_id_here
+        - TRACKER_QUEUE_KEY=SUPPORT
+    container_name: bottle-code-landing-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped

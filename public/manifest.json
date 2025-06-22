@@ -1,0 +1,31 @@
+{
+  "name": "BOTTLE [CODE] - Автоматизация маркировки",
+  "short_name": "BOTTLE CODE",
+  "description": "Решение для сериализации и агрегации кодов системы Честного Знака на производстве пива, сидра и других продуктов",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/BOTTLE-CODE-LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
+  "lang": "ru",
+  "scope": "/",
+  "prefer_related_applications": false
+}

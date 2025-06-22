@@ -1,0 +1,189 @@
+name: Deploy to Yandex Cloud
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  YCR_REGISTRY: cr.yandex/${{ secrets.YCR_REGISTRY_ID }}
+  IMAGE_NAME: bottle-code-landing
+  YC_VM_ID: ${{ secrets.VM_ID }}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Нужно для semantic-release
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+          CONTACT_EMAIL_TO: ${{ secrets.CONTACT_EMAIL_TO }}
+          CONTACT_EMAIL_FROM: ${{ secrets.CONTACT_EMAIL_FROM }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          TRACKER_PRIVATE_KEY: ${{ secrets.TRACKER_PRIVATE_KEY }}
+          TRACKER_KEY_ID: ${{ secrets.TRACKER_KEY_ID }}
+          TRACKER_SERVICE_ACCOUNT_ID: ${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}
+          TRACKER_ORG_ID: ${{ secrets.TRACKER_ORG_ID }}
+          TRACKER_QUEUE_KEY: ${{ secrets.TRACKER_QUEUE_KEY }}
+
+  semantic-release:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    outputs:
+      new-release-published: ${{ steps.semantic.outputs.new-release-published }}
+      new-release-version: ${{ steps.semantic.outputs.new-release-version }}
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Semantic Release
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+  deploy:
+    needs: [build-and-test, semantic-release]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set deployment environment
+        id: env
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "env_name=production" >> $GITHUB_OUTPUT
+            if [[ "${{ needs.semantic-release.outputs.new-release-published }}" == "true" ]]; then
+              echo "image_tag=${{ needs.semantic-release.outputs.new-release-version }}" >> $GITHUB_OUTPUT
+            else
+              echo "image_tag=latest" >> $GITHUB_OUTPUT
+            fi
+            echo "service_name=landing-production" >> $GITHUB_OUTPUT
+            echo "host_domain=${{ secrets.PROD_DOMAIN }}" >> $GITHUB_OUTPUT
+          else
+            echo "env_name=staging" >> $GITHUB_OUTPUT
+            echo "image_tag=staging" >> $GITHUB_OUTPUT
+            echo "service_name=landing-staging" >> $GITHUB_OUTPUT
+            echo "host_domain=${{ secrets.STAGING_DOMAIN }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Yandex Cloud CLI
+        run: |
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
+          echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH
+
+      - name: Configure Yandex Cloud CLI
+        env:
+          YC_OAUTH_TOKEN: ${{ secrets.YC_OAUTH_TOKEN }}
+          YC_CLOUD_ID: ${{ secrets.YC_CLOUD_ID }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+        run: |
+          yc config set token "$YC_OAUTH_TOKEN"
+          yc config set cloud-id "$YC_CLOUD_ID"
+          yc config set folder-id "$YC_FOLDER_ID"
+          export IAM_TOKEN=`yc iam create-token`
+          echo "::add-mask::$IAM_TOKEN"
+          echo "IAM_TOKEN=$IAM_TOKEN" >> $GITHUB_ENV
+
+      - name: Login to Yandex Container Registry
+        run: echo "${{ secrets.YC_OAUTH_TOKEN }}" | docker login --username oauth --password-stdin cr.yandex
+
+      - name: Build and push Docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_SITE_URL="${{ secrets.NEXT_PUBLIC_SITE_URL }}" \
+            --build-arg NEXT_PUBLIC_APP_URL="${{ secrets.NEXT_PUBLIC_APP_URL }}" \
+            --build-arg CONTACT_EMAIL_TO="${{ secrets.CONTACT_EMAIL_TO }}" \
+            --build-arg CONTACT_EMAIL_FROM="${{ secrets.CONTACT_EMAIL_FROM }}" \
+            --build-arg SMTP_HOST="${{ secrets.SMTP_HOST }}" \
+            --build-arg SMTP_PORT="${{ secrets.SMTP_PORT }}" \
+            --build-arg SMTP_SECURE="${{ secrets.SMTP_SECURE }}" \
+            --build-arg SMTP_USER="${{ secrets.SMTP_USER }}" \
+            --build-arg SMTP_PASS="${{ secrets.SMTP_PASS }}" \
+            --build-arg TRACKER_PRIVATE_KEY="${{ secrets.TRACKER_PRIVATE_KEY }}" \
+            --build-arg TRACKER_KEY_ID="${{ secrets.TRACKER_KEY_ID }}" \
+            --build-arg TRACKER_SERVICE_ACCOUNT_ID="${{ secrets.TRACKER_SERVICE_ACCOUNT_ID }}" \
+            --build-arg TRACKER_ORG_ID="${{ secrets.TRACKER_ORG_ID }}" \
+            --build-arg TRACKER_QUEUE_KEY="${{ secrets.TRACKER_QUEUE_KEY }}" \
+            -t $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} .
+          
+          docker push $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }}
+          
+          # Также тегируем как latest для production
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            docker tag $YCR_REGISTRY/$IMAGE_NAME:${{ steps.env.outputs.image_tag }} $YCR_REGISTRY/$IMAGE_NAME:latest
+            docker push $YCR_REGISTRY/$IMAGE_NAME:latest
+          fi
+
+      - name: Deploy to server
+        run: |
+          export VM_ID=${{ secrets.VM_ID }}
+          yc compute ssh --id "$VM_ID" -- "
+            cd /opt/bottle-code-landing &&
+            sudo docker login --username iam --password '$IAM_TOKEN' cr.yandex &&
+            sudo docker compose pull ${{ steps.env.outputs.service_name }} &&
+            sudo docker compose up -d ${{ steps.env.outputs.service_name }}
+          "
+
+      - name: Health check
+        run: |
+          echo "Waiting for deployment to complete..."
+          sleep 30
+          
+          DOMAIN="${{ steps.env.outputs.host_domain }}"
+          if [[ "${{ steps.env.outputs.env_name }}" == "staging" ]]; then
+            DOMAIN="staging.$DOMAIN"
+          fi
+          
+          echo "Checking health of https://$DOMAIN"
+          curl -f https://$DOMAIN || exit 1
+          echo "Deployment successful!"
+
+      - name: Cleanup old Docker images
+        run: |
+          export VM_ID=${{ secrets.VM_ID }}
+          yc compute ssh --id "$VM_ID" -- "
+            sudo docker image prune -f &&
+            sudo docker system prune -f
+          "

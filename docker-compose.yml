@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  landing-production:
+    image: cr.yandex/${YCR_REGISTRY_ID}/bottle-code-landing:latest
+    container_name: bottle-code-landing-prod
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.redirect-https.redirectScheme.scheme=https
+      - traefik.http.middlewares.redirect-https.redirectScheme.permanent=true
+      - traefik.http.routers.landing-prod.rule=Host(`bottlecode.app`) || Host(`www.bottlecode.app`)
+      - traefik.http.routers.landing-prod.entrypoints=websecure
+      - traefik.http.routers.landing-prod.tls.certresolver=letsencrypt
+      - traefik.http.services.landing-prod.loadbalancer.server.port=3000
+      # Redirect www to non-www
+      - traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\.(.*)
+      - traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}
+      - traefik.http.routers.landing-prod.middlewares=www-redirect
+    networks:
+      - proxy
+
+  landing-staging:
+    image: cr.yandex/${YCR_REGISTRY_ID}/bottle-code-landing:staging
+    container_name: bottle-code-landing-staging
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.redirect-https.redirectScheme.scheme=https
+      - traefik.http.middlewares.redirect-https.redirectScheme.permanent=true
+      - traefik.http.routers.landing-staging.rule=Host(`staging.bottlecode.app`)
+      - traefik.http.routers.landing-staging.entrypoints=websecure
+      - traefik.http.routers.landing-staging.tls.certresolver=letsencrypt
+      - traefik.http.services.landing-staging.loadbalancer.server.port=3000
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
